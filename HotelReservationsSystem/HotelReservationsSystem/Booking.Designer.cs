@@ -88,6 +88,7 @@
             this.roomServiceTextBox = new System.Windows.Forms.TextBox();
             this.saveBookingButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.closeButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.statusTextBox = new System.Windows.Forms.TextBox();
             this.bookingIDTextBox = new System.Windows.Forms.TextBox();
@@ -382,8 +383,9 @@
             // specialRequestTextBox
             // 
             this.specialRequestTextBox.Location = new System.Drawing.Point(128, 80);
+            this.specialRequestTextBox.Multiline = true;
             this.specialRequestTextBox.Name = "specialRequestTextBox";
-            this.specialRequestTextBox.Size = new System.Drawing.Size(159, 20);
+            this.specialRequestTextBox.Size = new System.Drawing.Size(159, 69);
             this.specialRequestTextBox.TabIndex = 2;
             // 
             // label9
@@ -397,7 +399,7 @@
             // 
             // checkInButton
             // 
-            this.checkInButton.Location = new System.Drawing.Point(167, 274);
+            this.checkInButton.Location = new System.Drawing.Point(124, 274);
             this.checkInButton.Name = "checkInButton";
             this.checkInButton.Size = new System.Drawing.Size(97, 29);
             this.checkInButton.TabIndex = 5;
@@ -427,7 +429,7 @@
             // 
             // checkOutButton
             // 
-            this.checkOutButton.Location = new System.Drawing.Point(479, 274);
+            this.checkOutButton.Location = new System.Drawing.Point(436, 274);
             this.checkOutButton.Name = "checkOutButton";
             this.checkOutButton.Size = new System.Drawing.Size(97, 29);
             this.checkOutButton.TabIndex = 8;
@@ -437,7 +439,7 @@
             // 
             // modifyButton
             // 
-            this.modifyButton.Location = new System.Drawing.Point(376, 274);
+            this.modifyButton.Location = new System.Drawing.Point(333, 274);
             this.modifyButton.Name = "modifyButton";
             this.modifyButton.Size = new System.Drawing.Size(97, 29);
             this.modifyButton.TabIndex = 7;
@@ -447,7 +449,7 @@
             // 
             // addChargesButton
             // 
-            this.addChargesButton.Location = new System.Drawing.Point(270, 274);
+            this.addChargesButton.Location = new System.Drawing.Point(227, 274);
             this.addChargesButton.Name = "addChargesButton";
             this.addChargesButton.Size = new System.Drawing.Size(97, 29);
             this.addChargesButton.TabIndex = 6;
@@ -665,7 +667,7 @@
             // 
             // saveBookingButton
             // 
-            this.saveBookingButton.Location = new System.Drawing.Point(61, 274);
+            this.saveBookingButton.Location = new System.Drawing.Point(18, 274);
             this.saveBookingButton.Name = "saveBookingButton";
             this.saveBookingButton.Size = new System.Drawing.Size(97, 29);
             this.saveBookingButton.TabIndex = 4;
@@ -675,6 +677,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.closeButton);
             this.groupBox3.Controls.Add(this.saveBookingButton);
             this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.groupBox4);
@@ -694,6 +697,16 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Booking Details";
+            // 
+            // closeButton
+            // 
+            this.closeButton.Location = new System.Drawing.Point(539, 274);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(97, 29);
+            this.closeButton.TabIndex = 28;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // label10
             // 
@@ -819,5 +832,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox floorTextBox;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Button closeButton;
     }
 }

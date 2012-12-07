@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Welcome));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label12 = new System.Windows.Forms.Label();
@@ -170,8 +171,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearNamesButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -1601,7 +1604,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(145, 65);
             this.label13.TabIndex = 103;
-            this.label13.Text = "Immediately Check-out";
+            this.label13.Text = "Check-out pending";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label8
@@ -1643,6 +1646,7 @@
             this.checkOutDateTimePicker.Name = "checkOutDateTimePicker";
             this.checkOutDateTimePicker.Size = new System.Drawing.Size(99, 20);
             this.checkOutDateTimePicker.TabIndex = 103;
+            this.checkOutDateTimePicker.Value = new System.DateTime(2012, 12, 5, 0, 0, 0, 0);
             // 
             // checkInDateTimePicker
             // 
@@ -1746,6 +1750,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.clearNamesButton);
             this.groupBox2.Controls.Add(this.lastNameTextBox);
             this.groupBox2.Controls.Add(this.firstNameTextBox);
             this.groupBox2.Controls.Add(this.label7);
@@ -1792,7 +1797,7 @@
             // 
             // retrieveBookingButton
             // 
-            this.retrieveBookingButton.Location = new System.Drawing.Point(163, 68);
+            this.retrieveBookingButton.Location = new System.Drawing.Point(98, 68);
             this.retrieveBookingButton.Margin = new System.Windows.Forms.Padding(2);
             this.retrieveBookingButton.Name = "retrieveBookingButton";
             this.retrieveBookingButton.Size = new System.Drawing.Size(61, 27);
@@ -1803,7 +1808,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::HotelReservationsSystem.Properties.Resources.conestogacollege;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(13, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(207, 75);
@@ -1825,7 +1830,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(661, 24);
@@ -1843,25 +1848,43 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewHelpToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
             // aboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem1});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.aboutToolStripMenuItem.Text = "&Help";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // aboutToolStripMenuItem1
+            // viewHelpToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem1.Text = "&About";
-            this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
+            this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
+            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.viewHelpToolStripMenuItem.Text = "View Help";
+            this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+            // 
+            // clearNamesButton
+            // 
+            this.clearNamesButton.Location = new System.Drawing.Point(163, 68);
+            this.clearNamesButton.Margin = new System.Windows.Forms.Padding(2);
+            this.clearNamesButton.Name = "clearNamesButton";
+            this.clearNamesButton.Size = new System.Drawing.Size(61, 27);
+            this.clearNamesButton.TabIndex = 107;
+            this.clearNamesButton.Text = "Clear";
+            this.clearNamesButton.UseVisualStyleBackColor = true;
+            this.clearNamesButton.Click += new System.EventHandler(this.clearNamesButton_Click);
             // 
             // Welcome
             // 
@@ -2046,8 +2069,10 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem viewHelpToolStripMenuItem;
+        private System.Windows.Forms.Button clearNamesButton;
 
     }
 }

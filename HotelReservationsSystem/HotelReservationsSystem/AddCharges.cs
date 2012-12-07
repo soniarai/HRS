@@ -34,5 +34,6 @@ namespace HotelReservationsSystem
             objectBookingInformation.restaurantCharges += Convert.ToDouble(restaurantChargesTextBox.Text);
             this.Close();
         }
+
     }
 }

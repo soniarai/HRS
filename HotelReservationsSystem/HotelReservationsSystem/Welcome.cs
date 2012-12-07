@@ -1,4 +1,11 @@
-﻿using System;
+﻿/** Welcome.cs
+ *      output: This allow an authorized user to check availability, 
+ *              retrieve existing booking details and go to the booking
+ *              form for creating new booking or update existing bookings.
+ *      Revision History
+ *        Sonia, Rhema, Asifa 2012.11.04: Created
+ */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,11 +24,15 @@ namespace HotelReservationsSystem
         OdbcConnection objectOdbcConnection;
         BookingInformation objectBookingInformation;
 
-        //Red status - checkout is pending immediately
+        /** Using three different HashSet to store room numbers,
+         * one HashSet per color code.
+         * redStatusRooms - Red status, checkout is pending immediately
+         * blueStatusRooms - Blue status, guest already checked-In, room in use
+         * dsBlueStatusRooms - Deep Sky Blue status, Room Booked but guest 
+         *                     check-In is pending
+         */
         HashSet<string> redStatusRooms = new HashSet<string>();
-        //Blue status - guest already checked-In, room in use
         HashSet<string> blueStatusRooms = new HashSet<string>();
-        //Deep Sky Blue status - Room Booked but guest check-In is pending
         HashSet<string> dsBlueStatusRooms = new HashSet<string>();
 
         public Welcome()
@@ -29,6 +40,16 @@ namespace HotelReservationsSystem
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Open the booking form for the room. The code automatically 
+        /// detects whether the room has an existing booking or not. It
+        /// creates the BookingInformation object accordingly and pass
+        /// on to the Booking form as an argument. The booking form will
+        /// update the controls based on the information in the 
+        /// BookingInformation object.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Room_Click(object sender, EventArgs e)
         {
             //Open the booking form for this room for current day
@@ -37,6 +58,9 @@ namespace HotelReservationsSystem
                 objectBookingInformation.bookedRoom.roomNumber != null &&
                 objectBookingInformation.bookedRoom.roomNumber != roomButton.Text.Substring(0, 3))
             {
+                /** BookingInformation contains info for a room which is not current room.
+                 *  Invalidate this information and recreate BookingInformation object.
+                 */
                 objectBookingInformation = new BookingInformation();
             }
             objectBookingInformation.bookedRoom.roomNumber = roomButton.Text.Substring(0, 3);
@@ -61,10 +85,12 @@ namespace HotelReservationsSystem
             OdbcDataReader dbReader = objectOdbcCommand.ExecuteReader();
             if (dbReader.HasRows)
             {
+                // Booking exist for this, read BookingInformation object
                 objectBookingInformation.readBookingObject(dbReader);
             }
             else
-            {
+            {   
+                // Booking doesn't exist, but update Room object in BookingInformation
                 dbReader.Close();
                 objectOdbcCommand.Parameters.Clear();
                 objectOdbcCommand.CommandText = "Select * from Rooms "
@@ -90,22 +116,43 @@ namespace HotelReservationsSystem
             objectBookingForm.Show();
             this.Hide();
         }
-
+        /// <summary>
+        /// When closing this form, close the connection opened
+        /// via OdbcConnection object and exit the application 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Welcome_FormClosed(object sender, FormClosedEventArgs e)
         {
             objectOdbcConnection.Close();
             Application.Exit();
         }
-
+        /// <summary>
+        /// Establish the database connection using object of
+        /// OdbcConnection class
+        /// Get the color status information for all the rooms and
+        /// change room colors to reflect the booking status.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Welcome_Load(object sender, EventArgs e)
         {
             objectOdbcConnection = new OdbcConnection("DSN=HRS");
             objectOdbcConnection.Open();
+            //set check out to next day by default
+            checkOutDateTimePicker.Value = DateTime.Today.AddDays(1);
             objectBookingInformation = new BookingInformation();
             getRoomColorStatus();
             setColorStatusForRooms();
         }
-
+        /// <summary>
+        /// Using database query, check the room status and add to to 
+        /// the corresponding HashSet indicating their color status.
+        /// Red status - checkout is pending for this room
+        /// Blue status - guest already checked-In, room in use
+        /// Deep Sky Blue status -  Room Booked but guest 
+        ///                         check-In is pending
+        /// </summary>
         public void getRoomColorStatus()
         {
             redStatusRooms.Clear();
@@ -127,7 +174,8 @@ namespace HotelReservationsSystem
             dbReader.Close();
             objectOdbcCommand.CommandText = "select * from Booking"
                                             + " join Rooms on Booking.roomID = rooms.roomID"
-                                            + " where getdate() between checkIn and checkOut "
+                                            + " where (checkIn = getdate() or  "
+                                            + " getdate() between checkIn and checkOut) "
                                             + " and status = 'CHECKED IN'";
             dbReader = objectOdbcCommand.ExecuteReader();
             while (dbReader.Read())
@@ -138,7 +186,8 @@ namespace HotelReservationsSystem
             dbReader.Close();
             objectOdbcCommand.CommandText = "select * from Booking"
                                             + " join Rooms on Booking.roomID = rooms.roomID"
-                                            + " where getdate() between checkIn and checkOut "
+                                            + " where (checkIn = getdate() or  "
+                                            + " getdate() between checkIn and checkOut) "
                                             + " and status = 'BOOKED'";
             dbReader = objectOdbcCommand.ExecuteReader();
             while (dbReader.Read())
@@ -147,7 +196,10 @@ namespace HotelReservationsSystem
             }
             dbReader.Close();
         }
-
+        /// <summary>
+        /// Update all the rooms and set colors as per the 
+        /// by calling setColorStatusForRoom for each room
+        /// </summary>
         public void setColorStatusForRooms()
         {
             foreach (TabPage tb in tabControl1.TabPages)
@@ -161,7 +213,11 @@ namespace HotelReservationsSystem
                         //Just catch the exception and let the loop continue
                     }
         }
-
+        /// <summary>
+        /// Update this rooms color based on it presence in one of
+        /// the three HashSet indicating color status for rooms
+        /// </summary>
+        /// <param name="roomButton"></param>
         public void setColorStatusForRoom(Button roomButton)
         {
             try
@@ -193,20 +249,39 @@ namespace HotelReservationsSystem
             }
         }
 
+        /// <summary>
+        /// Retrieve booking information for user.
+        /// Display user's information in a list if more than one 
+        /// matching results is found. Once a guest is selected from that
+        /// list, it will open the booking form with the selected information.
+        /// If only one matching result, directly open the booking form for 
+        /// the user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void retrieveBookingButton_Click(object sender, EventArgs e)
         {
-            //Retrieve booking list matching the conditions
-            // display that as list if more than one matching results
-            // if only one matching result, open the booking form for that user
+            if (lastNameTextBox.Text.Length <= 0)
+            {
+                MessageBox.Show("Please enter last name of the guest to search for their booking",
+                                   "Last Name Required", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lastNameTextBox.Focus();
+                return;
+            }
             OdbcCommand objectOdbcCommand = objectOdbcConnection.CreateCommand();
             objectOdbcCommand.CommandText = "select * from guest"
                                             + " join Booking"
                                             + " on guest.guestID = Booking.guestID"
                                             + " join Rooms on Booking.roomID = rooms.roomID"
                                             + " join Roomtype on  Roomtype.roomTypeId = rooms.roomTypeId "
-                                            + " where guestFName = ? and guestLName = ?";
-
-            objectOdbcCommand.Parameters.Add("guestFname", OdbcType.NVarChar).Value = firstNameTextBox.Text;
+                                            + " where ";
+                                           
+            if (firstNameTextBox.Text.Length > 0)
+            {
+                objectOdbcCommand.CommandText += " guestFName = ? and ";
+                objectOdbcCommand.Parameters.Add("guestFname", OdbcType.NVarChar).Value = firstNameTextBox.Text;
+            }
+            objectOdbcCommand.CommandText += " guestLName = ?";
             objectOdbcCommand.Parameters.Add("guestLname", OdbcType.NVarChar).Value = lastNameTextBox.Text;
 
             OdbcDataReader dbReader = objectOdbcCommand.ExecuteReader();
@@ -225,15 +300,12 @@ namespace HotelReservationsSystem
             switch(bookings.Count)
             {
                 case 0:
-                    MessageBox.Show("No booking found");
+                    MessageBox.Show("No booking found for this guest");
+                    /*
                     BookingInformation objBookingInfo = new BookingInformation();
-                    Guest objGuest = new Guest();
-                    Room objRoom = new Room();
-                    objBookingInfo.bookedGuest = objGuest;
-                    objBookingInfo.bookedRoom = objRoom;
                     objectBookingForm = new Booking(this, objectOdbcConnection, objBookingInfo);
                     objectBookingForm.Show();
-                    this.Hide();
+                    this.Hide();*/
                     break;
                 case 1:
                     //MessageBox.Show("one booking found");
@@ -250,23 +322,25 @@ namespace HotelReservationsSystem
             }
         }
 
+        /// <summary>
+        /// Check a rooms availability based on user's preference.
+        /// All the rooms which doesn't fulfill user's preference
+        /// will be disable. Booking can be made only on the rooms
+        /// with "Green" color status
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkAvailabilityButton_Click(object sender, EventArgs e)
         {
-            //Get all the user preference and store those in variables
-            //Construct a SQL query using those condition and 
-            // get all available rooms for each floor
-            // Disable rest of the rooms
             string type = roomTypeComboBox.Text;
             string roomLevel = roomLevelComboBox.Text;
             string checkInDate = checkInDateTimePicker.Text;
             string checkOutDate = checkOutDateTimePicker.Text;
 
-
             HashSet<string> hashSet = new HashSet<string>();
-
             objectBookingInformation = new BookingInformation();
+            
             //Initialize connection for ODBC
-
             OdbcCommand objectOdbcCommand = objectOdbcConnection.CreateCommand();
             string strCommand = "select * from Rooms left join RoomType on "
                                             + "rooms.roomTypeID = RoomType.roomTypeID "
@@ -298,7 +372,6 @@ namespace HotelReservationsSystem
                 //objectBookingInformation.bookedRoom.roomLevel = roomLevel;
             }
             objectOdbcCommand.CommandText = strCommand;
-            //  objectOdbcCommand.Parameters.Add("@userid",textBox1.Text);
             OdbcDataReader dbReader = objectOdbcCommand.ExecuteReader();
 
             while (dbReader.Read())
@@ -316,13 +389,14 @@ namespace HotelReservationsSystem
                 int floor = int.Parse(roomLevelComboBox.Text) - 1;
                 tabControl1.SelectedIndex = floor;
             }
+            //Iterate thru all the TabPages and then controls on each TabPage
             foreach (TabPage tb in tabControl1.TabPages)
                 foreach (Control ctr in tb.Controls)
                 {
                     try
                     {
                         if (hashSet.Contains(ctr.Text.Substring(0, 3)))
-                        {
+                        { 
                             ctr.Enabled = true;
                             setColorStatusForRoom((Button)ctr);
                         }
@@ -341,9 +415,15 @@ namespace HotelReservationsSystem
             hashSet.Clear();
         }
 
+        /// <summary>
+        /// Reset color status for all the rooms and
+        /// enable all rooms
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void clearButton_Click(object sender, EventArgs e)
         {
-            //reset the rooms, all rooms should be enabled
+            
             roomTypeComboBox.SelectedIndex = -1;
             roomLevelComboBox.SelectedIndex = -1;
             objectBookingInformation = new BookingInformation();
@@ -353,21 +433,37 @@ namespace HotelReservationsSystem
             setColorStatusForRooms();
         }
 
+        /// <summary>
+        /// Close the OdbcConnection and Exit the application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            objectOdbcConnection.Close();
             Application.Exit();
         }
 
+        /// <summary>
+        /// Show About Information
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Show About Form
-        }
-
-        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AboutBox aboutBox = new AboutBox();
             aboutBox.ShowDialog();
         }
 
+        private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, "HotelReservationSystem.chm");
+        }
+
+        private void clearNamesButton_Click(object sender, EventArgs e)
+        {
+            firstNameTextBox.Clear();
+            lastNameTextBox.Clear();
+        }
     }
 }

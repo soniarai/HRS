@@ -34,6 +34,8 @@
             this.passwordLabel = new System.Windows.Forms.Label();
             this.logonPanel = new System.Windows.Forms.Panel();
             this.logonButton = new System.Windows.Forms.Button();
+            this.clearButton = new System.Windows.Forms.Button();
+            this.changePassword = new System.Windows.Forms.LinkLabel();
             this.logonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,26 +81,51 @@
             // logonPanel
             // 
             this.logonPanel.BackColor = System.Drawing.Color.Snow;
+            this.logonPanel.Controls.Add(this.clearButton);
+            this.logonPanel.Controls.Add(this.changePassword);
+            this.logonPanel.Controls.Add(this.logonButton);
             this.logonPanel.Controls.Add(this.userIDLabel);
             this.logonPanel.Controls.Add(this.passwordTextBox);
             this.logonPanel.Controls.Add(this.userIDTextBox);
             this.logonPanel.Controls.Add(this.passwordLabel);
-            this.logonPanel.Location = new System.Drawing.Point(353, 33);
+            this.logonPanel.Location = new System.Drawing.Point(379, 21);
             this.logonPanel.Margin = new System.Windows.Forms.Padding(2);
             this.logonPanel.Name = "logonPanel";
-            this.logonPanel.Size = new System.Drawing.Size(298, 73);
+            this.logonPanel.Size = new System.Drawing.Size(298, 129);
             this.logonPanel.TabIndex = 0;
             // 
             // logonButton
             // 
-            this.logonButton.Location = new System.Drawing.Point(572, 110);
+            this.logonButton.Location = new System.Drawing.Point(145, 68);
             this.logonButton.Margin = new System.Windows.Forms.Padding(2);
             this.logonButton.Name = "logonButton";
             this.logonButton.Size = new System.Drawing.Size(70, 25);
-            this.logonButton.TabIndex = 1;
+            this.logonButton.TabIndex = 2;
             this.logonButton.Text = "LogOn";
             this.logonButton.UseVisualStyleBackColor = true;
             this.logonButton.Click += new System.EventHandler(this.logonButton_Click);
+            // 
+            // clearButton
+            // 
+            this.clearButton.Location = new System.Drawing.Point(219, 68);
+            this.clearButton.Margin = new System.Windows.Forms.Padding(2);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(70, 25);
+            this.clearButton.TabIndex = 3;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
+            // changePassword
+            // 
+            this.changePassword.AutoSize = true;
+            this.changePassword.Location = new System.Drawing.Point(202, 109);
+            this.changePassword.Name = "changePassword";
+            this.changePassword.Size = new System.Drawing.Size(93, 13);
+            this.changePassword.TabIndex = 4;
+            this.changePassword.TabStop = true;
+            this.changePassword.Text = "Change Password";
+            this.changePassword.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.changePassword_LinkClicked);
             // 
             // LogonForm
             // 
@@ -108,14 +135,13 @@
             this.BackgroundImage = global::HotelReservationsSystem.Properties.Resources.hotel_image;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(700, 465);
-            this.Controls.Add(this.logonButton);
             this.Controls.Add(this.logonPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "LogonForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Conestoga Inn - Hotel Reservation System";
+            this.Text = "Conestoga Inn HRS - Login";
             this.logonPanel.ResumeLayout(false);
             this.logonPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -130,6 +156,8 @@
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.Panel logonPanel;
         private System.Windows.Forms.Button logonButton;
+        private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.LinkLabel changePassword;
     }
 }
 

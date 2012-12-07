@@ -1,0 +1,395 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HotelReservationsSystem</name>
+    </assembly>
+    <members>
+        <member name="M:HotelReservationsSystem.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="F:HotelReservationsSystem.AboutBox.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.AboutBox.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.AboutBox.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:HotelReservationsSystem.LogonForm.CONNECTION_STRING">
+            Connection string to connect to HoterlReservationSystem database using
+            ODBC DSN source, defined as a constant
+        </member>
+        <member name="F:HotelReservationsSystem.LogonForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.LogonForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:HotelReservationsSystem.LogonForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.LogonForm.logonButton_Click(System.Object,System.EventArgs)">
+            <summary>
+             Establish a DSN connection with HotelReservationSystem database using 
+             ODBCConnection class and validate userID and Password. If a user is
+             authorized, it logon the user to the Welcome page of the HotelReservationSystem
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="F:HotelReservationsSystem.ChangePassword.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.ChangePassword.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:HotelReservationsSystem.ChangePassword.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.ChangePassword.#ctor">
+            <summary>
+            Ctro 
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.ChangePassword.okButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            When user clicks on OK, validate that new password
+            and confirm password are same. Update the passord for
+            the user if the userid and password are correct.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.#ctor(HotelReservationsSystem.Welcome,System.Data.Odbc.OdbcConnection,HotelReservationsSystem.BookingInformation)">
+            <summary>
+            Overloaded Constructor: 
+            This constructor will accept object of Welcome class, an opened 
+            OdbcConnection and BookingInformation object as input. When this
+            form is closed, it uses the Welcome object passed on via this
+            constructor to "show" the hidden Welcome form back to the user.
+            </summary>
+            <param name="welcomeForm">WlecomeForm</param>
+            <param name="odbcConnection">OdbcConnection</param>
+            <param name="bookingInformation">BookingInformation</param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.updateBookingControls">
+            <summary>
+            This function update controls on the Booking based 
+            on the current booking status set in the statusTextBox
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.Booking_Load(System.Object,System.EventArgs)">
+            <summary>
+            This function update controls on the form using information
+            in the BookingInformation object. It call updateBookingControls() 
+            function to update the controls depending upon current
+            booking status.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.saveBookingButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            This function is called when user click on "saveBookingButton"
+            If this is an existing booking, it updates the booking with changes. 
+            Else it creates a new booking.
+            After updating or creating booking, it update controls on Booking form
+            and color code information for the Welcome form
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.checkInButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            It expect a user to manually verify identity of selected 
+            customers and check-In a verified customer.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.addChargesButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            This function is called when a user click on "addChargesButton" button.
+            It will pop-up AddCharges form as a modal dialog which will allow the 
+            user to add Room Service charges or Restaurant charges for
+            the selected booking.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.modifyButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            A user can modify an existing booking by clicking
+            on modify button. It will enable only those fields
+            which can be changed for an existing booking.
+            Additionally, it will enable the save button so that
+            user can save the edited information.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.checkOutButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            It is called when user click on "checkOutButton" button.
+            It allows hotel staff to check out a guest once the payment
+            is accepted and it is marked as paid for that guest.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="F:HotelReservationsSystem.Booking.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:HotelReservationsSystem.Booking.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:HotelReservationsSystem.Guest">
+            <summary>
+            User defined data type to contain
+            required information for a guest
+            </summary>
+        </member>
+        <member name="T:HotelReservationsSystem.Room">
+            <summary>
+            User defined data type to contain
+            required informatoin for a room
+            </summary>
+        </member>
+        <member name="T:HotelReservationsSystem.BookingInformation">
+            <summary>
+            Class to contain required information for a 
+            booking. It contains a Guest and Room object.
+            It provides a method to read booking object
+            from a OdbcDataReader object - readBookingObject() 
+            It also provides a method to calculate
+            total charges - getTotalCharges()
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.BookingInformation.readBookingObject(System.Data.Odbc.OdbcDataReader)">
+            <summary>
+            This object read information for dbReader object
+            passed on to it by a caller function. 
+            Expectation is that the dbReader should contain all 
+            required fields for the BookingInformation object. 
+            Else, an exception will be raised and handled by application
+            and user will be notified that an internal exception occurred
+            </summary>
+            <param name="dbReader"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.BookingInformation.getTotalCharges">
+            <summary>
+            It calculate total applicable charges till today for a guest.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:HotelReservationsSystem.Welcome.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:HotelReservationsSystem.Welcome.redStatusRooms">
+            Using three different HashSet to store room numbers,
+            one HashSet per color code.
+            redStatusRooms - Red status, checkout is pending immediately
+            blueStatusRooms - Blue status, guest already checked-In, room in use
+            dsBlueStatusRooms - Deep Sky Blue status, Room Booked but guest 
+                                check-In is pending
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.Room_Click(System.Object,System.EventArgs)">
+            <summary>
+            Open the booking form for the room. The code automatically 
+            detects whether the room has an existing booking or not. It
+            creates the BookingInformation object accordingly and pass
+            on to the Booking form as an argument. The booking form will
+            update the controls based on the information in the 
+            BookingInformation object.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.Welcome_FormClosed(System.Object,System.Windows.Forms.FormClosedEventArgs)">
+            <summary>
+            When closing this form, close the connection opened
+            via OdbcConnection object and exit the application 
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.Welcome_Load(System.Object,System.EventArgs)">
+            <summary>
+            Establish the database connection using object of
+            OdbcConnection class
+            Get the color status information for all the rooms and
+            change room colors to reflect the booking status.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.getRoomColorStatus">
+            <summary>
+            Using database query, check the room status and add to to 
+            the corresponding HashSet indicating their color status.
+            Red status - checkout is pending for this room
+            Blue status - guest already checked-In, room in use
+            Deep Sky Blue status -  Room Booked but guest 
+                                    check-In is pending
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.setColorStatusForRooms">
+            <summary>
+            Update all the rooms and set colors as per the 
+            by calling setColorStatusForRoom for each room
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.setColorStatusForRoom(System.Windows.Forms.Button)">
+            <summary>
+            Update this rooms color based on it presence in one of
+            the three HashSet indicating color status for rooms
+            </summary>
+            <param name="roomButton"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.retrieveBookingButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Retrieve booking information for user.
+            Display user's information in a list if more than one 
+            matching results is found. Once a guest is selected from that
+            list, it will open the booking form with the selected information.
+            If only one matching result, directly open the booking form for 
+            the user.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.checkAvailabilityButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Check a rooms availability based on user's preference.
+            All the rooms which doesn't fulfill user's preference
+            will be disable. Booking can be made only on the rooms
+            with "Green" color status
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.clearButton_Click(System.Object,System.EventArgs)">
+            <summary>
+            Reset color status for all the rooms and
+            enable all rooms
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.exitToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Close the OdbcConnection and Exit the application.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:HotelReservationsSystem.Welcome.aboutToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Show About Information
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:HotelReservationsSystem.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:HotelReservationsSystem.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:HotelReservationsSystem.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="F:HotelReservationsSystem.AddCharges.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.AddCharges.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:HotelReservationsSystem.AddCharges.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:HotelReservationsSystem.ListBookings.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:HotelReservationsSystem.ListBookings.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:HotelReservationsSystem.ListBookings.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+    </members>
+</doc>

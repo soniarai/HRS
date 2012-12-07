@@ -1,4 +1,14 @@
-﻿using System;
+﻿/** Booking.cs
+ *      Output: Allow authorized user to perform administrative
+ *              functions related to room booking, like - create new booking,
+ *              modify existing bookng, chek-in & check-out a guest, 
+ *              add charges to room to the application
+ *              
+ *      Revision History
+ *          Sonia, Rhema, Asifa 2012.11.04: Created 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +25,7 @@ namespace HotelReservationsSystem
         Welcome objWelcomeForm;
         OdbcConnection objectOdbcConnection;
         BookingInformation objectBookingInformation;
-
+        //Booking status defined as string constant
         const string CHECKED_OUT = "CHECKED OUT";
         const string CHECKED_IN = "CHECKED IN";
         const string BOOKED = "BOOKED";
@@ -24,14 +34,16 @@ namespace HotelReservationsSystem
         {
             InitializeComponent();
         }
-        /** Overloaded Constructor: Booking(Welcome welcomeForm, 
-         *                                  OdbcConnection odbcConnection, 
-         *                                  BookingInformation bookingInformation)
-         *  This constructor will accept object of Welcome class, an opened OdbcConnection
-         *  and BookingInformation object as input. When this form is closed, it uses the 
-         *  Welcome object passed on via this constructor to "show" the hidden Welcome form.
-         *  
-         */
+        /// <summary>
+        /// Overloaded Constructor: 
+        /// This constructor will accept object of Welcome class, an opened 
+        /// OdbcConnection and BookingInformation object as input. When this
+        /// form is closed, it uses the Welcome object passed on via this
+        /// constructor to "show" the hidden Welcome form back to the user.
+        /// </summary>
+        /// <param name="welcomeForm">WlecomeForm</param>
+        /// <param name="odbcConnection">OdbcConnection</param>
+        /// <param name="bookingInformation">BookingInformation</param>
         public Booking(Welcome welcomeForm, 
                         OdbcConnection odbcConnection, 
                         BookingInformation bookingInformation)
@@ -40,16 +52,12 @@ namespace HotelReservationsSystem
             objWelcomeForm = welcomeForm;
             objectOdbcConnection = odbcConnection;
             objectBookingInformation = bookingInformation;
-        }
-
-        /** Function updateControls()
-         *      Return type - Void
-         *      Input - no input
-         *    This function update controls on the Booking based on the current 
-         *    booking status set in the statusTextBox
-         *    
-         */
-        private void updateControls()
+        }     
+        /// <summary>
+        /// This function update controls on the Booking based 
+        /// on the current booking status set in the statusTextBox
+        /// </summary>
+        private void updateBookingControls()
         {
             string statusString = statusTextBox.Text.Trim().ToUpper();
 
@@ -108,16 +116,17 @@ namespace HotelReservationsSystem
             //update each room with corresponding color code
             objWelcomeForm.setColorStatusForRooms();
         }
-
-        /** Function: Booking_Load
-         *      Update onctrols on the form using information
-         *      in the BookingInformation object. Call updateControls() 
-         *      function to update the controls as per the logic defined 
-         *      in updateContorl() function.
-         */
+        /// <summary>
+        /// This function update controls on the form using information
+        /// in the BookingInformation object. It call updateBookingControls() 
+        /// function to update the controls depending upon current
+        /// booking status.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Booking_Load(object sender, EventArgs e)
         {
-            //Update controls with information stored in BookingInformation object.
+            //Update Guest details
             bookingIDTextBox.Text = objectBookingInformation.bookingID;
             statusTextBox.Text = objectBookingInformation.status;
             guestIDTextBox.Text = objectBookingInformation.bookedGuest.guestId;
@@ -126,14 +135,19 @@ namespace HotelReservationsSystem
             phoneTextBox.Text = objectBookingInformation.bookedGuest.phone;
             addressTextBox.Text = objectBookingInformation.bookedGuest.address;
             emailTextBox.Text = objectBookingInformation.bookedGuest.email;
+
+            //Update Room details
             roomNumberTextBox.Text = objectBookingInformation.bookedRoom.roomNumber;
             roomTypeTextBox.Text = objectBookingInformation.bookedRoom.roomType;
             roomRateTextBox.Text = objectBookingInformation.bookedRoom.roomRate.ToString();
             roomDescriptionTextBox.Text = objectBookingInformation.bookedRoom.roomDescription;
             floorTextBox.Text = objectBookingInformation.bookedRoom.roomFloor;
+
+            //Update General booking details
             checkInDateTimePicker.Value = objectBookingInformation.checkInDate;
             checkOutDateTimePicker.Value = objectBookingInformation.checkOutDate;
             specialRequestTextBox.Text = objectBookingInformation.specialRequest;
+
             //Set user's identity verification status
             switch(objectBookingInformation.bookedGuest.identityStatus.Trim())
             {
@@ -159,7 +173,7 @@ namespace HotelReservationsSystem
             roomServiceTextBox.Text = objectBookingInformation.roomServiceCharges.ToString();
             restaurantTextBox.Text = objectBookingInformation.restaurantCharges.ToString();
             totalTextBox.Text = objectBookingInformation.getTotalCharges().ToString();
-            //Selected credit card type
+            //Update selected credit card type
             switch(objectBookingInformation.bookedGuest.creditCardType.Trim())
             {
                 case "Visa":
@@ -173,37 +187,59 @@ namespace HotelReservationsSystem
                     break;
             }
             //Display only last 4 digits of creditcard
-            if(objectBookingInformation.bookedGuest.creditCardNumber != null)
+            if (objectBookingInformation.bookedGuest.creditCardNumber != null 
+                && objectBookingInformation.bookedGuest.creditCardNumber.Length >=16)
                 creditCardNoTextBox.Text = "****-****-****-" 
                                 + objectBookingInformation.bookedGuest.creditCardNumber.Substring(11, 4);
-            //Payment status
+            //Update Payment status
             if (objectBookingInformation.paymentStatus.Trim() == "Paid")
                 paymentStatusComboBox.SelectedIndex = 1;
             else
                 paymentStatusComboBox.SelectedIndex = 0;
-
-            updateControls();
+            
+            updateBookingControls();
         }
 
         private void Booking_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //Show the hidden Welcome form on closing Booking form
+            //Show the hidden Welcome form on closing this form
             objWelcomeForm.Show();
         }
-
-        /** Function saveBookingButton_Click
-         *      This function is called when user click on "saveBookingButton"
-         *      If this is an existing booking, it updates the booking with changes. 
-         *      Else it creates a new booking.
-         *      After updating or creating booking, it update controls on Booking form
-         *      and color code information for the Welcome form
-         */
+        /// <summary>
+        /// This function is called when user click on "saveBookingButton"
+        /// If this is an existing booking, it updates the booking with changes. 
+        /// Else it creates a new booking.
+        /// After updating or creating booking, it update controls on Booking form
+        /// and color code information for the Welcome form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveBookingButton_Click(object sender, EventArgs e)
         {
+            if (creditCardTypeComboBox.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please select the Credit Card type and enter a valid"
+                                + " Credit Card number for making a booking",
+                                "Credit Card Type is required",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                creditCardTypeComboBox.Focus();
+                return;
+            }
+            if (creditCardNoTextBox.TextLength < 16)
+            {
+                MessageBox.Show("Please enter a valid Credit Card number."
+                                +"This information is required to make a booking",
+                                "Credit Card Number is required",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                creditCardNoTextBox.Focus();
+                return;
+            }
+
+
             OdbcCommand objectOdbcCommand = objectOdbcConnection.CreateCommand();
             if (objectBookingInformation.bookedGuest.guestId != null 
                 && objectBookingInformation.bookedGuest.guestId.Length > 0)
-            {//update existing guest
+            {//This is an existing guest, update using guestid
               
                 objectOdbcCommand.CommandText = "update guest set guestFname = ?, "
                                         + " guestLname = ?, address = ? , telephone = ?, "
@@ -212,7 +248,7 @@ namespace HotelReservationsSystem
 
             }
             else
-            {//insert new guest
+            {//This is a new guest, insert details in system
                objectOdbcCommand.CommandText ="insert into guest (guestFname,"
                                        + " guestLname, address, telephone,"
                                        + " email, identityStatus,creditCardType, creditCardNumber)"
@@ -222,16 +258,12 @@ namespace HotelReservationsSystem
             //Add input parameters to the OdbcCommand object 
             objectOdbcCommand.Parameters.Add("guestFname", OdbcType.NVarChar).Value 
                 = firstNameTextBox.Text.Trim().ToUpper(); //First name
-
             objectOdbcCommand.Parameters.Add("guestLname", OdbcType.NVarChar).Value 
                 = lastNameTextBox.Text.Trim().ToUpper(); //Last name
-
             objectOdbcCommand.Parameters.Add("address", OdbcType.NVarChar).Value 
                 = addressTextBox.Text.Trim().ToUpper(); //Address
-
             objectOdbcCommand.Parameters.Add("telephone", OdbcType.NVarChar).Value 
                 = phoneTextBox.Text.Trim().ToUpper(); //Telephone
-
             objectOdbcCommand.Parameters.Add("email", OdbcType.NVarChar).Value 
                 = emailTextBox.Text.Trim().ToLower(); //Email
 
@@ -247,7 +279,7 @@ namespace HotelReservationsSystem
                 identityVerification = citizenshipCardRadioButton.Text;
             else if (otherRadioButton.Checked == true)
                 identityVerification = idOthersTextBox.Text;
-            else
+            else//No selection made, accept it as not verified
                 identityVerification = notVerifiedRadioButton.Text;
 
             objectOdbcCommand.Parameters.Add("identification", OdbcType.NVarChar).Value 
@@ -268,13 +300,17 @@ namespace HotelReservationsSystem
 
             OdbcDataReader dbReader = objectOdbcCommand.ExecuteReader();
             dbReader.Read();
+            /** If dbReader has rows, it indicate that SCOPE_IDENTITY() 
+             * returned the guestid of newly inserted record. In that case,
+             * we need to update the guestid on the screen
+             * */
             if(dbReader.HasRows)
                 guestIDTextBox.Text = dbReader[0].ToString();
             dbReader.Close();
             objectOdbcCommand.Parameters.Clear();
 
             if(bookingIDTextBox.Text.Length >0)
-            { //Existing Booking
+            { //Existing Booking, update it using bookingID
                 objectOdbcCommand.CommandText = "update booking set payStatus=?, status=? where "
                                                  + " bookingId = ?";
                 objectOdbcCommand.Parameters.Add("payStatus", OdbcType.NVarChar).Value 
@@ -285,7 +321,7 @@ namespace HotelReservationsSystem
                     = bookingIDTextBox.Text.Trim();
             }
             else
-            { //New Booking
+            { //New Booking, insert it into the system
                 objectOdbcCommand.CommandText 
                     = "insert into booking(status, checkIn, checkOut,specialRequest, "
                         + "roomServCharges, restaurantCharges,totalPrice, guestID, roomID,payStatus) "
@@ -313,6 +349,10 @@ namespace HotelReservationsSystem
             }
             dbReader = objectOdbcCommand.ExecuteReader();
             dbReader.Read();
+            /** If dbReader has rows, it indicate that SCOPE_IDENTITY() 
+             * returned the bookingId of newly inserted record. In that case,
+             * we need to update the bookingId on the screen
+             * */
             if (dbReader.HasRows)
             {
                 bookingIDTextBox.Text = dbReader[0].ToString();
@@ -320,18 +360,19 @@ namespace HotelReservationsSystem
             }
             dbReader.Close();
             objectOdbcCommand.Dispose();
-
-            updateControls();
+            updateBookingControls();
 
         }
-        /** Function: checkInButton_Click
-         *    Verify the customers identity and check-In
-         */
+        /// <summary>
+        /// It expect a user to manually verify identity of selected 
+        /// customers and check-In a verified customer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkInButton_Click(object sender, EventArgs e)
         {
-            
             if (checkInDateTimePicker.Value > DateTime.Today)
-            {//Do not allow to check-in a guest for which the check-in date is in future
+            {//Do not allow to check-in a future booking
                 MessageBox.Show("Sorry, you can not checkin a customer with furture check-In date",
                     "Future Check-In date", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -350,15 +391,17 @@ namespace HotelReservationsSystem
                 objectOdbcCommand.ExecuteNonQuery();
 
                 statusTextBox.Text = CHECKED_IN;
-                updateControls();
+                updateBookingControls();
             }
         }
-        /** Function addChargesButton_Click
-         *      It is called when user click on "addChargesButton" button. It will
-         *      show the AddCharges form as a modal dialog. The AddCharges form
-         *      allow hotel staff to add Room Service charges or Restaurant charges for
-         *      the selected booking.
-         */
+        /// <summary>
+        /// This function is called when a user click on "addChargesButton" button.
+        /// It will pop-up AddCharges form as a modal dialog which will allow the 
+        /// user to add Room Service charges or Restaurant charges for
+        /// the selected booking.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addChargesButton_Click(object sender, EventArgs e)
         {
             //Display AddCharges form as modal dialog
@@ -384,7 +427,15 @@ namespace HotelReservationsSystem
             objectOdbcCommand.ExecuteNonQuery();
 
         }
-
+        /// <summary>
+        /// A user can modify an existing booking by clicking
+        /// on modify button. It will enable only those fields
+        /// which can be changed for an existing booking.
+        /// Additionally, it will enable the save button so that
+        /// user can save the edited information.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void modifyButton_Click(object sender, EventArgs e)
         {
             //Enable text boxes to get guest inforamtion
@@ -403,12 +454,13 @@ namespace HotelReservationsSystem
             checkOutButton.Enabled = false;
             modifyButton.Enabled = false;
         }
-
-        /** Function checkOutButton_Click
-         *      It is called when user click on "checkOutButton" button.
-         *      It allow hotel staff to check out a guest once they accept the
-         *      pending payments and mark it as paid for that guest.
-         */
+        /// <summary>
+        /// It is called when user click on "checkOutButton" button.
+        /// It allows hotel staff to check out a guest once the payment
+        /// is accepted and it is marked as paid for that guest.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkOutButton_Click(object sender, EventArgs e)
         {
             //Confirm the identity of the user and update the status in the database
@@ -428,13 +480,21 @@ namespace HotelReservationsSystem
                 objectOdbcCommand.ExecuteNonQuery();
 
                 statusTextBox.Text = CHECKED_OUT;
-                updateControls();
+                updateBookingControls();
               }
 
         }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
    
     }
-
+    /// <summary>
+    /// User defined data type to contain
+    /// required information for a guest
+    /// </summary>
     public struct Guest
     {
         public string guestId;
@@ -447,6 +507,10 @@ namespace HotelReservationsSystem
         public string creditCardType;
         public string creditCardNumber;
     }
+    /// <summary>
+    /// User defined data type to contain
+    /// required informatoin for a room
+    /// </summary>
     public struct Room
     {
         public string roomId;
@@ -456,7 +520,14 @@ namespace HotelReservationsSystem
         public double roomRate;
         public string roomFloor;
     }
-
+    /// <summary>
+    /// Class to contain required information for a 
+    /// booking. It contains a Guest and Room object.
+    /// It provides a method to read booking object
+    /// from a OdbcDataReader object - readBookingObject() 
+    /// It also provides a method to calculate
+    /// total charges - getTotalCharges()
+    /// </summary>
     public class BookingInformation
     {
         //defining attributes as public
@@ -487,12 +558,15 @@ namespace HotelReservationsSystem
             totalCharges = 0;
             paymentStatus = "";
         }
-        /** Function: readBookingObject
-         *      This object read information for dbReader object
-         *      passed on to it by a caller function. Expectation is that
-         *      the dbReader should contain all required fields for the
-         *      BookingInformation object
-         */
+        /// <summary>
+        /// This object read information for dbReader object
+        /// passed on to it by a caller function. 
+        /// Expectation is that the dbReader should contain all 
+        /// required fields for the BookingInformation object. 
+        /// Else, an exception will be raised and handled by application
+        /// and user will be notified that an internal exception occurred
+        /// </summary>
+        /// <param name="dbReader"></param>
         public void readBookingObject( OdbcDataReader dbReader)
         {
             try
@@ -536,17 +610,27 @@ namespace HotelReservationsSystem
             }
         }
 
-        /** Functoin getTotalCharges
-         *      It calculate total applicable charges till today for a guest.
-         */
+        /// <summary>
+        /// It calculate total applicable charges till today for a guest.
+        /// </summary>
+        /// <returns></returns>
         public double getTotalCharges()
         {
             double totalCharges = roomServiceCharges
                                 + restaurantCharges;
+            int totalDaysInteger=0;
+            /** If checkOut date is past, then show bill
+             * only till check-out date
+             */
             if(checkOutDate < DateTime.Today)
-                totalCharges += bookedRoom.roomRate * (checkOutDate - checkInDate).TotalDays;
+                  totalDaysInteger = (checkOutDate - checkInDate).Days;
             else
-                totalCharges += bookedRoom.roomRate * (DateTime.Today - checkInDate).TotalDays;
+                totalDaysInteger = (DateTime.Today - checkInDate).Days;
+            /** If Check-In date is today's date, that we
+             * need to show at least one day's charge.
+             */
+            totalDaysInteger = (totalDaysInteger !=0 )?totalDaysInteger:1;
+            totalCharges += bookedRoom.roomRate*totalDaysInteger;
             return totalCharges;
         }
 
