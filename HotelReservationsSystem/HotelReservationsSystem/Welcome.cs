@@ -457,13 +457,22 @@ namespace HotelReservationsSystem
 
         private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Help.ShowHelp(this, "HotelReservationSystem.chm");
+            string helpFileString = Application.StartupPath.ToString()
+                + "\\..\\..\\..\\Documents\\ConestogaInn_Administration_Guide.pdf";
+            Help.ShowHelp(this, helpFileString);
         }
 
         private void clearNamesButton_Click(object sender, EventArgs e)
         {
             firstNameTextBox.Clear();
             lastNameTextBox.Clear();
+        }
+
+        private void programmingManualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string helpFileString = Application.StartupPath.ToString()
+               + "\\..\\..\\..\\Documents\\HotelReservationSystem.chm";
+            Help.ShowHelp(this, helpFileString);
         }
     }
 }

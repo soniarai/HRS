@@ -161,6 +161,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.roomTypeComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.clearNamesButton = new System.Windows.Forms.Button();
             this.lastNameTextBox = new System.Windows.Forms.TextBox();
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -172,9 +173,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearNamesButton = new System.Windows.Forms.Button();
+            this.programmingManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -1763,6 +1764,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Retrieve Existing Booking";
             // 
+            // clearNamesButton
+            // 
+            this.clearNamesButton.Location = new System.Drawing.Point(163, 68);
+            this.clearNamesButton.Margin = new System.Windows.Forms.Padding(2);
+            this.clearNamesButton.Name = "clearNamesButton";
+            this.clearNamesButton.Size = new System.Drawing.Size(61, 27);
+            this.clearNamesButton.TabIndex = 107;
+            this.clearNamesButton.Text = "Clear";
+            this.clearNamesButton.UseVisualStyleBackColor = true;
+            this.clearNamesButton.Click += new System.EventHandler(this.clearNamesButton_Click);
+            // 
             // lastNameTextBox
             // 
             this.lastNameTextBox.Location = new System.Drawing.Point(86, 43);
@@ -1856,35 +1868,32 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewHelpToolStripMenuItem,
+            this.programmingManualToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.aboutToolStripMenuItem.Text = "&About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
             // viewHelpToolStripMenuItem
             // 
             this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
-            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.viewHelpToolStripMenuItem.Text = "View Help";
             this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
             // 
-            // clearNamesButton
+            // programmingManualToolStripMenuItem
             // 
-            this.clearNamesButton.Location = new System.Drawing.Point(163, 68);
-            this.clearNamesButton.Margin = new System.Windows.Forms.Padding(2);
-            this.clearNamesButton.Name = "clearNamesButton";
-            this.clearNamesButton.Size = new System.Drawing.Size(61, 27);
-            this.clearNamesButton.TabIndex = 107;
-            this.clearNamesButton.Text = "Clear";
-            this.clearNamesButton.UseVisualStyleBackColor = true;
-            this.clearNamesButton.Click += new System.EventHandler(this.clearNamesButton_Click);
+            this.programmingManualToolStripMenuItem.Name = "programmingManualToolStripMenuItem";
+            this.programmingManualToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.programmingManualToolStripMenuItem.Text = "Programmer\'s Reference";
+            this.programmingManualToolStripMenuItem.Click += new System.EventHandler(this.programmingManualToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // Welcome
             // 
@@ -2073,6 +2082,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewHelpToolStripMenuItem;
         private System.Windows.Forms.Button clearNamesButton;
+        private System.Windows.Forms.ToolStripMenuItem programmingManualToolStripMenuItem;
 
     }
 }

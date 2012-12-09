@@ -151,7 +151,7 @@ namespace HotelReservationsSystem
             //Set user's identity verification status
             switch(objectBookingInformation.bookedGuest.identityStatus.Trim())
             {
-                case "":
+                case "":  
                 case "NOT VERIFIED":
                     notVerifiedRadioButton.Checked = true;
                     break;

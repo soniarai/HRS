@@ -1,4 +1,13 @@
-﻿using System;
+﻿/** ListBookings.cs
+ *      output: When retreiving booking for a user, if more than
+ *          one booking are found, the booking are shown in the 
+ *          list view. Staff should be able to confirm the correct
+ *          booking for a guest and select it for further processing
+ *          
+ *      Revision History
+ *        Sonia, Rhema, Asifa 2012.11.04: Created
+ */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
